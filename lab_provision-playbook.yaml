@@ -1,0 +1,20 @@
+---
+- name: Provision vms lab with Terraform
+  hosts: vm_hosts
+  become: false
+  vars_files:
+    - lab_vars.yaml
+
+  tasks:
+    - name: Include terraform provision role
+      ansible.builtin.include_role:
+        name: ansible-role-terraform-provision
+      vars:
+        vm_name: "{{ item.vm_name }}"
+        hostname: "{{ item.hostname }}"
+        base_image_name: "{{ item.base_image_name }}"
+        vm_ram_mb: "{{ item.vm_ram_mb }}"
+        vm_vcpus: "{{ item.vm_vcpus }}"
+        static_ip: "{{ item.static_ip | default('') }}"
+        ssh_public_key: "{{ lookup('file', ssh_public_key_file) if ssh_public_key_file is defined else '' }}"
+      loop: "{{ vm_list }}"

@@ -1,0 +1,5 @@
+---
+roles:
+  - name: ansible-role-terraform-provision
+    src: https://github.com/chouaieb-sleimi/ansible-role-terraform-provision.git
+    version: main

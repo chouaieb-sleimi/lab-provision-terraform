@@ -1,0 +1,65 @@
+---
+# Terraform workspace configuration
+terraform_workspace: "{{ lookup('ansible.builtin.env', 'HOME') }}/tech/terraform-infra"
+
+# Host environment
+home_dir: "{{ lookup('ansible.builtin.env', 'HOME') }}"
+
+# VM list (per-VM overrides; shared vars below apply to all)
+vm_list:
+  - vm_name: "control-rhel-9.3"
+    hostname: "control"
+    base_image_name: "rhel-9.3-x86_64-kvm.qcow2"
+    vm_ram_mb: 2048
+    vm_vcpus: 2
+    static_ip: "192.168.111.60/24"
+  # - vm_name: "managed_1-alma9.1"
+  #   hostname: "managed1"
+  #   base_image_name: "AlmaLinux-9-GenericCloud-9.1-20221118.x86_64.qcow2"
+  #   vm_ram_mb: 2048
+  #   vm_vcpus: 1
+  #   static_ip: "192.168.111.61/24"
+
+# Storage
+libvirt_image_dir: "{{ home_dir }}/tech/storage/os"
+pool_name: "vm_pool"
+pool_path: "{{ home_dir }}/tech/vms"
+
+# Network
+vm_net: "network_labs"
+network_cidr: "192.168.111.0/24"
+gateway: "192.168.111.1"
+nameservers:
+  - "192.168.111.1"
+  - "8.8.8.8"
+
+# System
+domain: "ansible.labs.homestation"
+keyboard_layout: "fr"
+locale: "en_US.UTF-8"
+timezone: "UTC"
+admin_username: "admin"
+admin_password: "admin"
+root_password: "toor"
+ssh_pwauth: true
+disable_root: false
+
+# Post-provisioning
+enable_post_config: true
+ssh_public_key_file: "{{ home_dir }}/.ssh/id_ed25519.pub"
+install_packages: false
+update_system: false
+configure_dnf: true
+packages:
+  - vim
+  - wget
+  - curl
+  - net-tools
+  - bind-utils
+  - tree
+redhat_subscription_pool: "8a82c58b81d513980181dd125a771945"
+clean_subscription: true
+
+# Secrets - override via ansible-vault or extra-vars
+redhat_username: "redhat_access_login"
+redhat_password: "redhat_access_pass"
