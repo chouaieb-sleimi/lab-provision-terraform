@@ -6,6 +6,12 @@
     - lab_vars.yaml
 
   tasks:
+    - name: Display lab provisioning directories
+      ansible.builtin.debug:
+        msg:
+          - "Terraform workspace : {{ terraform_workspace }}"
+          - "Terraform state dir : {{ terraform_state_dir }}"
+
     - name: Include terraform provision role
       ansible.builtin.include_role:
         name: ansible-role-terraform-provision

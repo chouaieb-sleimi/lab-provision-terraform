@@ -1,9 +1,7 @@
 ---
-# Terraform workspace configuration
-terraform_workspace: "{{ lookup('ansible.builtin.env', 'HOME') }}/tech/terraform-infra"
-
-# Host environment
-home_dir: "{{ lookup('ansible.builtin.env', 'HOME') }}"
+# Host workdirs (role defaults, here for documentation)
+# terraform_workspace: "/var/lib/terraform/workspaces"
+# terraform_state_dir: "/var/lib/terraform/states"
 
 # VM list (per-VM overrides; shared vars below apply to all)
 vm_list:
